@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const resolve = require('resolve');
+const FilemanagerPlugin = require('filemanager-webpack-plugin');
+const WextManifestWebpackPlugin = require('wext-manifest-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
@@ -30,6 +32,7 @@ const createEnvironmentHash = require('./webpack/persistentCache/createEnvironme
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+const targetBrowser = process.env.TARGET_BROWSER;
 
 const reactRefreshRuntimeEntry = require.resolve('react-refresh/runtime');
 const reactRefreshWebpackPluginRuntimeEntry = require.resolve(
@@ -84,6 +87,16 @@ const hasJsxRuntime = (() => {
     return false;
   }
 })();
+
+const getExtensionFileType = (browser) => {
+  if (browser === 'opera') {
+    return 'crx';
+  }
+  if (browser === 'firefox') {
+    return 'xpi';
+  }
+  return 'zip';
+};
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -200,7 +213,13 @@ module.exports = function (webpackEnv) {
       : isEnvDevelopment && 'cheap-module-source-map',
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
-    entry: paths.appIndexJs,
+    entry: [
+      paths.appIndexJs,
+      paths.mainIndexJs,
+      paths.popupIndexJs,
+      paths.optionsIndexJs,
+      paths.manifest
+    ],
     output: {
       // The build folder.
       path: paths.appBuild,
@@ -290,6 +309,20 @@ module.exports = function (webpackEnv) {
         }),
         // This is only used in production mode
         new CssMinimizerPlugin(),
+        new FilemanagerPlugin({
+          events: {
+            onEnd: {
+              archive: [
+                {
+                  format: 'zip',
+                  source: paths.appBuild,
+                  destination: `${paths.appBuild}.${getExtensionFileType(targetBrowser)}`,
+                  options: {zlib: {level: 6}},
+                },
+              ],
+            },
+          },
+        }), 
       ],
     },
     resolve: {
@@ -319,8 +352,13 @@ module.exports = function (webpackEnv) {
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
         ...(modules.webpackAliases || {}),
+        //Required webextension webpack alias for cross-browser compatibility
+        'webextension-polyfill-ts': path.resolve(
+          path.join(__dirname, 'node_modules', 'webextension-polyfill-ts'))
       },
       plugins: [
+        // Plugin to not generate js bundle for manifest entry
+        //new WextManifestWebpackPlugin(), 
         // Prevents users from importing files from outside of src/ (or node_modules/).
         // This often causes confusion because we only process files within src/ with babel.
         // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
@@ -339,6 +377,18 @@ module.exports = function (webpackEnv) {
     module: {
       strictExportPresence: true,
       rules: [
+        // Handle manifest
+         {
+          type: 'javascript/auto', // prevent webpack handling json with its own loaders,
+          test: /manifest\.json$/,
+          use: {
+            loader: require.resolve('wext-manifest-loader'),
+            options: {
+              usePackageJSONVersion: true, // set to false to not use package.json version for manifest
+            },
+          },
+          exclude: /node_modules/,
+        }, 
         // Handle node_modules packages that contain sourcemaps
         shouldUseSourceMap && {
           enforce: 'pre',
@@ -572,6 +622,84 @@ module.exports = function (webpackEnv) {
             template: paths.appHtml,
           },
           isEnvProduction
+            ? {
+                minify: {
+                  removeComments: true,
+                  collapseWhitespace: true,
+                  removeRedundantAttributes: true,
+                  useShortDoctype: true,
+                  removeEmptyAttributes: true,
+                  removeStyleLinkTypeAttributes: true,
+                  keepClosingSlash: true,
+                  minifyJS: true,
+                  minifyCSS: true,
+                  minifyURLs: true,
+                },
+              }
+            : undefined
+        )
+      ),
+      new HtmlWebpackPlugin(
+        Object.assign({
+        template: paths.mainHtml,
+        inject: 'body',
+        chunks: ['main'],
+        hash: true,
+        filename: 'main.html',
+      },
+      isEnvProduction
+            ? {
+                minify: {
+                  removeComments: true,
+                  collapseWhitespace: true,
+                  removeRedundantAttributes: true,
+                  useShortDoctype: true,
+                  removeEmptyAttributes: true,
+                  removeStyleLinkTypeAttributes: true,
+                  keepClosingSlash: true,
+                  minifyJS: true,
+                  minifyCSS: true,
+                  minifyURLs: true,
+                },
+              }
+            : undefined
+        )
+      ),
+      new HtmlWebpackPlugin(
+        Object.assign({
+        template: paths.optionsHtml,
+        inject: 'body',
+        chunks: ['options'],
+        hash: true,
+        filename: 'options.html',
+      },
+      isEnvProduction
+            ? {
+                minify: {
+                  removeComments: true,
+                  collapseWhitespace: true,
+                  removeRedundantAttributes: true,
+                  useShortDoctype: true,
+                  removeEmptyAttributes: true,
+                  removeStyleLinkTypeAttributes: true,
+                  keepClosingSlash: true,
+                  minifyJS: true,
+                  minifyCSS: true,
+                  minifyURLs: true,
+                },
+              }
+            : undefined
+        )
+      ),
+      new HtmlWebpackPlugin(
+        Object.assign({
+        template: paths.popupHtml,
+        inject: 'body',
+        chunks: ['popup'],
+        hash: true,
+        filename: 'popup.html',
+      },
+      isEnvProduction
             ? {
                 minify: {
                   removeComments: true,

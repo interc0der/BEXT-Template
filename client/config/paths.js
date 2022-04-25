@@ -3,6 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
+const targetBrowser = process.env.TARGET_BROWSER;
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
@@ -21,7 +22,8 @@ const publicUrlOrPath = getPublicUrlOrPath(
   process.env.PUBLIC_URL
 );
 
-const buildPath = process.env.BUILD_PATH || 'build';
+let buildPath = process.env.BUILD_PATH || `build`;
+if (targetBrowser) buildPath= buildPath + `/${targetBrowser}`
 
 const moduleFileExtensions = [
   'web.mjs',
@@ -70,6 +72,16 @@ module.exports = {
   appTsBuildInfoFile: resolveApp('node_modules/.cache/tsconfig.tsbuildinfo'),
   swSrc: resolveModule(resolveApp, 'src/service-worker'),
   publicUrlOrPath,
+  //Added paths for extension
+  mainHtml: resolveApp('public/main.html'),
+  popupHtml: resolveApp('public/popup.html'),
+  optionsHtml: resolveApp('public/options.html'),
+  mainIndexJs: resolveModule(resolveApp, 'src/pages/main/index'),
+  popupIndexJs: resolveModule(resolveApp, 'src/pages/popup/index'),
+  optionsIndexJs: resolveModule(resolveApp, 'src/pages/options/index'),
+  manifest: resolveApp('public/manifest.json'),
+  content: resolveModule(resolveApp, 'src/content.js'),
+  background: resolveModule(resolveApp, 'src/background.js'),
 };
 
 

@@ -1,17 +1,14 @@
-// React Required
 import React from 'react';
-import ReactDOM from 'react-dom';
-
-// Create Import File
+import ReactDOM from 'react-dom/client';
 import './index.scss';
 
-const Root: React.FC = () => {
-        return (
-                    <div className="root-wrapper">
-                        This is the options page
-                    </div>
-                )
-}
-
-ReactDOM.render(<Root />, document.getElementById('options-root'));
-//serviceWorker.register();
+const root = ReactDOM.createRoot(
+  document.getElementById('options-root') as HTMLElement
+);
+root.render(
+  <React.StrictMode>
+        <div className="root-wrapper">
+            This is the options page
+        </div>
+  </React.StrictMode>
+);
