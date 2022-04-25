@@ -6,7 +6,7 @@
 </p>
 
 <!-- Project Title -->
-<p align="center" style="text-align: center; margin:0px">browser extension template</p>
+<p align="center" style="text-align: center; margin:0px">browser-extension-template</p>
 
 <!-- Project Shields -->
 <p align="center" style="text-align: center;">
