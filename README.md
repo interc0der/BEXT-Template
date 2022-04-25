@@ -94,7 +94,7 @@ This project is a derivative of a project called <a href="https://github.com/abh
 
 ## Donate
 
-<div align="center">If you find my work valuable, please consider donating</div>
+<p align="center">If you find my work valuable, please consider donating</p>
 
 <div align="center">
     <a href="https://bithomp.com/explorer/rp1kWYztSkPZ2ULBUMCdhUDzDFhR891hcd">
