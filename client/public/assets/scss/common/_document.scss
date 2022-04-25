@@ -1,0 +1,31 @@
+html,
+body {
+  //Maximum size of extension window
+  height: 600px;
+  width: 400px;
+}
+
+#root {
+  position: static;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.root-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

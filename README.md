@@ -34,10 +34,9 @@
 Browser extension template with cross-browser compatibility
 </p>
 
-
 ## File Structure
 
-The file structure has been modified to match a conventional ReactJS project. 
+The file structure has been modified to match a conventional ReactJS project.
 
 ```
 ├── build
@@ -72,14 +71,15 @@ The file structure has been modified to match a conventional ReactJS project.
 ```
 
 ## Features
-coming soon...
 
+coming soon...
 
 ## Cross-browser compatibility
+
 coming soon...
 
-
 ## On the shoulder of giants...
+
 <p align="center">
   <div align="center">
 This project is a derivative of a project called <a href="https://github.com/abhijithvijayan/web-extension-starter">web-extension-starter</a></div>
@@ -92,14 +92,13 @@ This project is a derivative of a project called <a href="https://github.com/abh
   <a href="https://www.buymeacoffee.com/abhijithvijayan" target='_blank'><b>Buy Me a Coffee</b></a>
 </p>
 
-
 ## Donate
 
 <div align="center">If you find my work valuable, please consider donating</div>
 
 <div align="center">
     <a href="https://bithomp.com/explorer/rp1kWYztSkPZ2ULBUMCdhUDzDFhR891hcd">
-        <img src='_media/xrpl-github-button.svg' style="width: 200px" width="200"> 
+        <img src='docs/_media/xrpl-github-button.svg' style="width: 200px" width="200"> 
     </a>
 
 rp1kWYztSkPZ2ULBUMCdhUDzDFhR891hcd
@@ -108,12 +107,9 @@ rp1kWYztSkPZ2ULBUMCdhUDzDFhR891hcd
 
 <div align="center">
     <a href="https://xumm.app/detect/request:rp1kWYztSkPZ2ULBUMCdhUDzDFhR891hcd">
-        <img src='_media/xumm-github-button.svg' style="width: 200px" width="200"> 
+        <img src='docs/_media/xumm-github-button.svg' style="width: 200px" width="200"> 
     </a>
 
 https://xumm.app/detect/request:rp1kWYztSkPZ2ULBUMCdhUDzDFhR891hcd
 
 <div>
-
-
-  
