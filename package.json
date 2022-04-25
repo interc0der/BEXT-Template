@@ -1,0 +1,34 @@
+{
+  "name": "browser-extension-template",
+  "version": "1.0.0",
+  "description": "Browser extension template",
+  "directories": {
+    "docs": "docs",
+    "client": "client",
+    "tests": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/interc0der/browser-extension-template.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/interc0der/browser-extension-template/issues"
+  },
+  "homepage": "https://github.com/interc0der/browser-extension-template#readme",
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.26",
+    "dotenv": "^16.0.0",
+    "jest": "^27.5.1",
+    "path": "^0.12.7",
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
+}
