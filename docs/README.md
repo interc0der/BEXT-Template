@@ -6,7 +6,7 @@
 </p>
 
 <!-- Project Title -->
-<p align="center" style="text-align: center; margin:0px">template for typescript compiler</p>
+<p align="center" style="text-align: center; margin:0px">browser-extension-template</p>
 
 <!-- Project Shields -->
 <p align="center" style="text-align: center;">
@@ -31,47 +31,70 @@
 </p>
 
 <p align="center" style="text-align:center; margin:0px">
-Base configuration template for typescript compiling
+Browser extension template with cross-browser compatibility
 </p>
 
-- Create a [GitHub issue](https://github.com/interc0der/tsconfig/issues) for bug reports, feature requests, or questions
-- Follow [@interc0der](https://twitter.com/interc0der) for announcements
-- Add a ⭐️ [star on GitHub](https://github.com/interc0der/tsconfig) or ❤️ [tweet](https://twitter.com/intent/tweet?url=https://twitter.com/interc0der) to support the project!
+## File Structure
 
-## About
+The file structure has been modified to match a conventional ReactJS project.
 
-This is a base typescipt configuration template used across my projects written in javascript/typescript. Feel free to use it or clone it for your projects!
+```
+├── build
+│   ├── chrome
+│   ├── firefox
+│   ├── opera
+├── config
+├── public
+│   ├── index.html
+│   ├── popup.html
+│   ├── options.html
+│   ├── manifest.json
+├── scripts
+├── src
+│   ├── components (shared)
+│   ├── pages
+│   │   ├──  index
+│   │   │   ├──   index.ts
+│   │   │   ├──   index.scss
+│   │   ├──  popup
+│   │   │   ├──   index.ts
+│   │   │   ├──   index.scss
+│   │   ├──  options
+│   │   │   ├──   index.ts
+│   │   │   ├──   index.scss
+├── docs
+├── node_modules
+├── jest.config.js
+├── tsconfig.json
+├── yarn.lock
+├── package.json
+```
 
 ## Features
 
-- Base tsconfig.json for other packages
-- Verbose breakdown of tsconfig parameters
-- Subdirectories with common templates
+coming soon...
 
-## Install
+## Cross-browser compatibility
 
-To begin, use the commandline to install the package as a dev-dependency.
+coming soon...
 
-```js
-npm install --save-dev @interc0der/tsconfig
-//or
-yarn add -D @interc0der/tsconfig
-```
+## On the shoulder of giants...
 
-## Usage
-
-To build with this base typescript configuration, use extending within the tsconfig.json file located in the root directory of your projects.
-
-```js
-@filename: tsconfig.json
-{
-    extends: "@interc0der/tsconfig"
-}
-```
+<p align="center">
+  <div align="center">
+This project is a derivative of a project called <a href="https://github.com/abhijithvijayan/web-extension-starter">web-extension-starter</a></div>
+<div align="center">🙋‍♂️ Made by <a href="https://github.com/abhijithvijayan">@abhijithvijayan</a></div>
+</p>
+<p align="center">
+  Support <a href="https://github.com/abhijithvijayan">abhijithvijayan</a> at 
+  <a href="https://www.paypal.me/iamabhijithvijayan" target='_blank'><b>PayPal</b></a>,
+  <a href="https://www.patreon.com/abhijithvijayan" target='_blank'><b>Patreon</b></a>,
+  <a href="https://www.buymeacoffee.com/abhijithvijayan" target='_blank'><b>Buy Me a Coffee</b></a>
+</p>
 
 ## Donate
 
-Please consider donating if you find my work is valuable. I am happy if you can help me [buy a cup of coffee](). :heart:
+<p align="center">If you find my work valuable, please consider donating</p>
 
 <div align="center">
     <a href="https://bithomp.com/explorer/rp1kWYztSkPZ2ULBUMCdhUDzDFhR891hcd">
