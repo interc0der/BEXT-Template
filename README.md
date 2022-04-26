@@ -10,9 +10,6 @@
 
 <!-- Project Shields -->
 <p align="center" style="text-align: center;">
-    <a style="text-decoration:none" href="https://img.shields.io/npm/v/docsify-themeable.svg?style=flat-square">
-        <img src="https://img.shields.io/npm/v/docsify-themeable.svg?style=flat-square">
-    </a>
     <a style="text-decoration:none" href="https://img.shields.io/github/workflow/status/jhildenbiddle/docsify-themeable/Build/master?label=checks&style=flat-square">
         <img src="https://img.shields.io/github/workflow/status/jhildenbiddle/docsify-themeable/Build/master?label=checks&style=flat-square">
     </a>
