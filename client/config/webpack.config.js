@@ -5,7 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const resolve = require('resolve');
 const FilemanagerPlugin = require('filemanager-webpack-plugin');
-const WextManifestWebpackPlugin = require('wext-manifest-webpack-plugin');
+const WextManifestWebpackPlugin = require('@interc0der/wext-manifest-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
@@ -27,11 +27,14 @@ const ForkTsCheckerWebpackPlugin =
     ? require('react-dev-utils/ForkTsCheckerWarningWebpackPlugin')
     : require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const createEnvironmentHash = require('./webpack/persistentCache/createEnvironmentHash');
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+//const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+const shouldUseSourceMap = false
+
 const targetBrowser = process.env.TARGET_BROWSER;
 
 const reactRefreshRuntimeEntry = require.resolve('react-refresh/runtime');
@@ -213,13 +216,13 @@ module.exports = function (webpackEnv) {
       : isEnvDevelopment && 'cheap-module-source-map',
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
-    entry: [
-      paths.appIndexJs,
-      paths.mainIndexJs,
-      paths.popupIndexJs,
-      paths.optionsIndexJs,
-      paths.manifest
-    ],
+    entry: {
+      index: paths.appIndexJs,
+      main: paths.mainIndexJs,
+      popup: paths.popupIndexJs,
+      options: paths.optionsIndexJs,
+      manifest: paths.manifest
+    },
     output: {
       // The build folder.
       path: paths.appBuild,
@@ -357,8 +360,6 @@ module.exports = function (webpackEnv) {
           path.join(__dirname, 'node_modules', 'webextension-polyfill-ts'))
       },
       plugins: [
-        // Plugin to not generate js bundle for manifest entry
-        //new WextManifestWebpackPlugin(), 
         // Prevents users from importing files from outside of src/ (or node_modules/).
         // This often causes confusion because we only process files within src/ with babel.
         // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
@@ -613,6 +614,19 @@ module.exports = function (webpackEnv) {
       ].filter(Boolean),
     },
     plugins: [
+      new WextManifestWebpackPlugin(), 
+      // delete previous build files
+      new CleanWebpackPlugin({
+        cleanOnceBeforeBuildPatterns: [
+          path.join(process.cwd(), `build/${targetBrowser}`),
+          path.join(
+            process.cwd(),
+            `build/${targetBrowser}.${getExtensionFileType(targetBrowser)}`
+          ),
+        ],
+        cleanStaleWebpackAssets: false,
+        verbose: true,
+      }),  
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
@@ -620,6 +634,8 @@ module.exports = function (webpackEnv) {
           {
             inject: true,
             template: paths.appHtml,
+            chunks: ['index'],
+            filename: 'index.html',
           },
           isEnvProduction
             ? {
@@ -642,9 +658,9 @@ module.exports = function (webpackEnv) {
       new HtmlWebpackPlugin(
         Object.assign({
         template: paths.mainHtml,
-        inject: 'body',
+        inject: true,
         chunks: ['main'],
-        hash: true,
+        hash: false,
         filename: 'main.html',
       },
       isEnvProduction
@@ -668,9 +684,9 @@ module.exports = function (webpackEnv) {
       new HtmlWebpackPlugin(
         Object.assign({
         template: paths.optionsHtml,
-        inject: 'body',
+        inject: true,
         chunks: ['options'],
-        hash: true,
+        hash: false,
         filename: 'options.html',
       },
       isEnvProduction
@@ -694,9 +710,9 @@ module.exports = function (webpackEnv) {
       new HtmlWebpackPlugin(
         Object.assign({
         template: paths.popupHtml,
-        inject: 'body',
+        inject: true,
         chunks: ['popup'],
-        hash: true,
+        hash: false,
         filename: 'popup.html',
       },
       isEnvProduction
