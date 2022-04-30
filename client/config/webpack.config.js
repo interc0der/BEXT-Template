@@ -27,7 +27,7 @@ const ForkTsCheckerWebpackPlugin =
     ? require('react-dev-utils/ForkTsCheckerWarningWebpackPlugin')
     : require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 
 const createEnvironmentHash = require('./webpack/persistentCache/createEnvironmentHash');
 
@@ -77,6 +77,7 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const svgRegex = /\.svg$/;
 
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
@@ -221,6 +222,8 @@ module.exports = function (webpackEnv) {
       main: paths.mainIndexJs,
       popup: paths.popupIndexJs,
       options: paths.optionsIndexJs,
+      content: paths.content,
+      background: paths.background,
       manifest: paths.manifest
     },
     output: {
@@ -231,17 +234,17 @@ module.exports = function (webpackEnv) {
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
       filename: isEnvProduction
-        ? 'static/js/[name].[contenthash:8].js'
-        : isEnvDevelopment && 'static/js/bundle.js',
+        ? 'static/js/[name].bundle.js'
+        : isEnvDevelopment && 'static/js/[name].[contenthash:8].js',
       // There are also additional JS chunk files if you use code splitting.
       chunkFilename: isEnvProduction
-        ? 'static/js/[name].[contenthash:8].chunk.js'
+        ? 'static/js/[name].chunk.js'
         : isEnvDevelopment && 'static/js/[name].chunk.js',
       assetModuleFilename: 'static/media/[name].[hash][ext]',
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
-      publicPath: paths.publicUrlOrPath,
+      //publicPath: paths.publicUrlOrPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
         ? info =>
@@ -427,7 +430,7 @@ module.exports = function (webpackEnv) {
               },
             },
             {
-              test: /\.svg$/,
+              test: svgRegex,
               use: [
                 {
                   loader: require.resolve('@svgr/webpack'),
@@ -615,18 +618,6 @@ module.exports = function (webpackEnv) {
     },
     plugins: [
       new WextManifestWebpackPlugin(), 
-      // delete previous build files
-      new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: [
-          path.join(process.cwd(), `build/${targetBrowser}`),
-          path.join(
-            process.cwd(),
-            `build/${targetBrowser}.${getExtensionFileType(targetBrowser)}`
-          ),
-        ],
-        cleanStaleWebpackAssets: false,
-        verbose: true,
-      }),  
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
@@ -761,6 +752,7 @@ module.exports = function (webpackEnv) {
         new ReactRefreshWebpackPlugin({
           overlay: false,
         }),
+      new RemoveEmptyScriptsPlugin({ verbose: isEnvProduction !== true }),
       // Watcher doesn't work well if you mistype casing in a path so we use
       // a plugin that prints an error when you attempt to do this.
       // See https://github.com/facebook/create-react-app/issues/240

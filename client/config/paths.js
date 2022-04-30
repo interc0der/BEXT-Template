@@ -80,8 +80,8 @@ module.exports = {
   popupIndexJs: resolveModule(resolveApp, 'src/pages/popup/index'),
   optionsIndexJs: resolveModule(resolveApp, 'src/pages/options/index'),
   manifest: resolveApp('public/manifest.json'),
-  content: resolveModule(resolveApp, 'src/content.js'),
-  background: resolveModule(resolveApp, 'src/background.js'),
+  content: resolveModule(resolveApp, 'src/content'),
+  background: resolveModule(resolveApp, 'src/background'),
 };
 
 
