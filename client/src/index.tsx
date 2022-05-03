@@ -8,7 +8,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
         <div className="root-wrapper">
-            This is the index page
+            This is the index again
         </div>
   </React.StrictMode>
 );
