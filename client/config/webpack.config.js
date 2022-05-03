@@ -617,7 +617,8 @@ module.exports = function (webpackEnv) {
       ].filter(Boolean),
     },
     plugins: [
-      new WextManifestWebpackPlugin(), 
+      isEnvProduction
+      ? new WextManifestWebpackPlugin() : null, 
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
